@@ -20,6 +20,8 @@ namespace api.Data
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<PhotoTag> PhotoTags { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
