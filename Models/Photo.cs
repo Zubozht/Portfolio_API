@@ -15,12 +15,13 @@ namespace api.Models
         public int id { get; set; }
         [Column(TypeName="NVARCHAR(100)")]
         public string path { get; set; } = string.Empty;
-        [Column(TypeName="NVARCHAR(100)")]
+        [Column(TypeName = "NVARCHAR(100)")]
         public string previewpath { get; set; } = string.Empty;
         //[Column(TypeName ="LONGBLOB")]
         //public byte[]? image { get; set; }
         //[Column(TypeName ="LONGBLOB")]
         //public byte[]? previewimage { get; set; }
+        [Column(TypeName="NVARCHAR(50)")]
         public string caption { get; set; } = string.Empty;
         [Column(TypeName ="NVARCHAR(1000)")]
         public string description { get; set; } = string.Empty;
