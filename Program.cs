@@ -23,7 +23,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", builder =>
     {
-        builder.WithOrigins("https://viktormarchenkophoto.com", "https://marchenkophoto.com")
+        builder.WithOrigins("https://viktormarchenkophoto.com", "https://marchenkophoto.com", "http://localhost:5173")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials();
