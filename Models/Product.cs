@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace api.Models
 {
+    [Table("products")]
     public class Product
     {
         [Key]
