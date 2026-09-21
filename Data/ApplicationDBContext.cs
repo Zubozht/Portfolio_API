@@ -21,7 +21,11 @@ namespace api.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<PhotoTag> PhotoTags { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductPhoto> ProductPhotos { get; set; }
+        public DbSet<ProductProductPhoto> ProductProductPhotos { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +51,33 @@ namespace api.Data
                 .WithMany(t => t.photos)
                 .HasForeignKey(pt => pt.Tagid)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Products)
+                .WithOne(p => p.Category)
+                .HasForeignKey(p => p.CategoryId)
+                .IsRequired();
+            
+            modelBuilder.Entity<ProductProductPhoto>()
+                .HasKey(ppt => new {ppt.ProductId, ppt.ProductPhotoId});
+
+            modelBuilder.Entity<ProductProductPhoto>()
+                .HasOne(ppt => ppt.ProductPhoto)
+                .WithMany(pp => pp.Products)
+                .HasForeignKey(ppt => ppt.ProductPhotoId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ProductProductPhoto>()
+                .HasOne(ppt => ppt.Product)
+                .WithMany(p => p.Photos)
+                .HasForeignKey(ppt => ppt.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.OrderItems)
+                .WithOne(oi => oi.Order)
+                .HasForeignKey(oi => oi.OrderId)
+                .IsRequired();
 
             modelBuilder.Entity<AppUser>().ToTable("aspnetusers");
             modelBuilder.Entity<IdentityRole>().ToTable("aspnetroles");
