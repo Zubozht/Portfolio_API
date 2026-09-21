@@ -17,9 +17,11 @@ namespace api.Repository
     public class TagRepository : ITagRepository
     {
         private readonly ApplicationDBContext _context;
-        public TagRepository(ApplicationDBContext context)
+        private readonly ILogger<TagRepository> _logger;
+        public TagRepository(ApplicationDBContext context, ILogger<TagRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
         //public async Task<List<Tag>> GetAllAsync()
         //{

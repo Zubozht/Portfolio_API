@@ -107,33 +107,10 @@ namespace api.Controllers
 
             return File(image, "image/jpeg");
         }
-        [HttpGet("atuimage/{name}")]
-        public async Task<IActionResult> GetATUImage([FromRoute] string name)
-        {
-            var safeName = Path.GetFileName(name);
-
-            if (!safeName.EndsWith(".jpg") && !safeName.EndsWith(".jpeg"))
-            {
-                _logger.LogInformation("not found!!!");
-                return NotFound();
-            }
-
-            string atuImagePath = Path.Combine(Directory.GetCurrentDirectory(), "atuphotos", $"{safeName}");
-
-            _logger.LogInformation("path: " + atuImagePath);
-
-            if (!System.IO.File.Exists(atuImagePath))
-            {
-                _logger.LogInformation("not found!!!");
-                return NotFound();
-            }
-
-            return File(await System.IO.File.ReadAllBytesAsync(atuImagePath), "image/jpeg");
-        }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreatePhotoReqestDTO photoDTO)
+        public async Task<IActionResult> Create([FromForm] CreatePhotoRequestDTO photoDTO)
         {
             if (!ModelState.IsValid)
             {
