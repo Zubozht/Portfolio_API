@@ -23,7 +23,7 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
-      "applicationUrl": "https://api.marchenkophoto.com;https://api.viktormarchenkophoto.com",
+      "applicationUrl": "https://api.marchenkophoto.com",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
       }
