@@ -9,6 +9,7 @@ namespace api.DTOs.Photo
     {
         public string? caption { get; set; }
         public string? description { get; set; }
+        public int? sortorder { get; set; }
         public List<int>? tagIds { get; set; }
         public int? minShutterspeed { get; set; }
         public int? maxShutterspeed { get; set; }

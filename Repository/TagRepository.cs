@@ -46,7 +46,7 @@ namespace api.Repository
 
             if (!string.IsNullOrWhiteSpace(filterDTO.sortBy))
             {
-                foreach (string colname in typeof(Photo).GetProperties().Select(x => x.Name).ToList())
+                foreach (string colname in typeof(Tag).GetProperties().Select(x => x.Name).ToList())
                 {
                     if (filterDTO.sortBy.Trim().Equals(colname, StringComparison.OrdinalIgnoreCase))
                     {

@@ -247,6 +247,7 @@ namespace api.Repository
 
             existingPhoto.caption = photoDTO.caption;
             existingPhoto.description = photoDTO.description ?? "";
+            existingPhoto.sortorder = photoDTO.sortorder;
             existingPhoto.exposure = null;
             existingPhoto.shutterspeed = null;
             existingPhoto.apperture = null;

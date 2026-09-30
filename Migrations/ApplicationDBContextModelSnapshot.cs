@@ -45,18 +45,18 @@ namespace api.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("aspnetroles", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = "2ec18996-445b-443a-84f4-0691b967fe85",
+                            Id = "31c6dd65-9f8a-4fe3-bc98-d62f2328cb32",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "4e695943-aecc-454e-a7b3-1372bfe2effd",
+                            Id = "85040cd6-12ca-47f2-bb6b-811fb2b7779e",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -84,7 +84,7 @@ namespace api.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("aspnetroleclaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -109,7 +109,7 @@ namespace api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("aspnetuserclaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -131,7 +131,7 @@ namespace api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("aspnetuserlogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -146,7 +146,7 @@ namespace api.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("aspnetuserroles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -165,7 +165,7 @@ namespace api.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("aspnetusertokens", (string)null);
                 });
 
             modelBuilder.Entity("api.Models.AppUser", b =>
@@ -229,7 +229,24 @@ namespace api.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("aspnetusers", (string)null);
+                });
+
+            modelBuilder.Entity("api.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("api.Models.Photo", b =>
@@ -245,7 +262,7 @@ namespace api.Migrations
 
                     b.Property<string>("caption")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("NVARCHAR(50)");
 
                     b.Property<DateTime>("createdon")
                         .ValueGeneratedOnAdd()
@@ -257,19 +274,21 @@ namespace api.Migrations
                         .HasColumnType("NVARCHAR(1000)");
 
                     b.Property<string>("exposure")
-                        .HasColumnType("NVARCHAR(10)");
-
-                    b.Property<byte[]>("image")
-                        .HasColumnType("LONGBLOB");
+                        .HasColumnType("NVARCHAR(50)");
 
                     b.Property<int?>("iso")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("previewimage")
-                        .HasColumnType("LONGBLOB");
+                    b.Property<string>("path")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR(100)");
 
-                    b.Property<float?>("shutterspeed")
-                        .HasColumnType("float");
+                    b.Property<string>("previewpath")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR(100)");
+
+                    b.Property<int?>("shutterspeed")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
@@ -291,6 +310,32 @@ namespace api.Migrations
                     b.ToTable("phototags");
                 });
 
+            modelBuilder.Entity("api.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR(500)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Products");
+                });
+
             modelBuilder.Entity("api.Models.Tag", b =>
                 {
                     b.Property<int>("id")
@@ -299,8 +344,9 @@ namespace api.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<byte[]>("previewimage")
-                        .HasColumnType("LONGBLOB");
+                    b.Property<string>("previewpath")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR(100)");
 
                     b.Property<string>("tag")
                         .IsRequired()
@@ -379,6 +425,22 @@ namespace api.Migrations
                     b.Navigation("Photo");
 
                     b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("api.Models.Product", b =>
+                {
+                    b.HasOne("api.Models.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("api.Models.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("api.Models.Photo", b =>

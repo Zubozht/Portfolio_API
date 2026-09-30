@@ -31,7 +31,7 @@ namespace api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var tags = await _tagRepo.GetFilteredAsync(new TagFilterDTO { sortBy = "id", isDescending = true });
+            var tags = await _tagRepo.GetFilteredAsync(new TagFilterDTO { sortBy = "tag", isDescending = false });
             var tagDTO = tags.Select(x => x.ToTagDTO());
             
             return Ok(tagDTO);

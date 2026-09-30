@@ -23,8 +23,10 @@ namespace api.Models
         //public byte[]? previewimage { get; set; }
         [Column(TypeName="NVARCHAR(50)")]
         public string caption { get; set; } = string.Empty;
-        [Column(TypeName ="NVARCHAR(1000)")]
+        [Column(TypeName="NVARCHAR(1000)")]
         public string description { get; set; } = string.Empty;
+        [Column(TypeName="INT")]
+        public int sortorder { get; set; } = 0;
         public List<PhotoTag> tags { get; set; } = new List<PhotoTag>();
         public int? shutterspeed { get; set; }
         [Column(TypeName ="NVARCHAR(50)")]

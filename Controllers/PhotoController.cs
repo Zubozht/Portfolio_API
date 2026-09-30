@@ -35,7 +35,7 @@ namespace api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var photos = (await _photoRepo.GetFilteredAsync(new PhotoFilterDTO { sortBy = "id", isDescending = true })).Select(x => x.ToPhotoDTO());
+            var photos = (await _photoRepo.GetFilteredAsync(new PhotoFilterDTO { sortBy = "sortorder", isDescending = false })).Select(x => x.ToPhotoDTO());
 
             return Ok(photos);
         }
@@ -136,6 +136,7 @@ namespace api.Controllers
                 path = imagepath,
                 caption = photoDTO.caption,
                 description = photoDTO.description ?? "",
+                sortorder = photoDTO.sortorder,
                 tags = photoDTO.tags.Select(x => new PhotoTag { Tagid = x }).ToList()
             };
 
