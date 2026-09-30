@@ -17,7 +17,6 @@ namespace api.HelperFunctions
                         }
                         else
                         {
-                            //check
                             return $"1/{(int)Math.Round(1/exposuretime)}";
                         }
                     }
