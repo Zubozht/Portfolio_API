@@ -1,7 +1,7 @@
 REST API for my personal photography portfolio website.
 Built with ASP.NET Core, Entity Framework Core and MySQL.  
 Features:  
-- photo and product management
+- CRUD for photos, tags and products (latter not yet fully implemented)
 - authentication and authorization with ASP.NET Identity/JWT
 - filtering, sorting and pagination
 - image metadata processing
