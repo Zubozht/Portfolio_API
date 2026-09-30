@@ -7,7 +7,7 @@ using api.DTOs.Tag;
 
 namespace api.DTOs.Photo
 {
-    public class CreatePhotoReqestDTO
+    public class CreatePhotoRequestDTO
     {
         [Required]
         public IFormFile? image { get; set; }
@@ -17,6 +17,7 @@ namespace api.DTOs.Photo
         public string caption { get; set; } = string.Empty;
         [MaxLength(500, ErrorMessage = "A description can't be over 500 characters.")]
         public string? description { get; set; }
+        public int sortorder { get; set; } = 1;
         public List<int> tags { get; set; } = new List<int>();
     }
 }

@@ -22,6 +22,7 @@ namespace api.Mappers
                 previewpath = photoModel.previewpath,
                 caption = photoModel.caption,
                 description = photoModel.description,
+                sortorder = photoModel.sortorder,
                 tags = photoModel.tags.Select(x => new LightTagDTO{id = x.Tag.id, tag = x.Tag.tag}).ToList(),
                 exposure = photoModel.exposure,
                 apperture = photoModel.apperture,

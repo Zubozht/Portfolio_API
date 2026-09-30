@@ -16,6 +16,7 @@ namespace api.DTOs.Photo
         public string previewpath { get; set; } = string.Empty;
         public string caption { get; set; } = string.Empty;
         public string description { get; set; } = string.Empty;
+        public int sortorder { get; set; } = 1;
         public List<LightTagDTO> tags { get; set; } = new List<LightTagDTO>();
         public float? shutterspeed { get; set; }
         public string? exposure { get; set; }

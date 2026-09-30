@@ -21,9 +21,9 @@ ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConne
 builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReactApp", builder =>
+    options.AddPolicy("AllowReactApp", policy =>
     {
-        builder.WithOrigins("https://marchenkophoto.com", "http://localhost:5173")
+        policy.WithOrigins(builder.Configuration["ClientURL"] ?? "http://localhost:5173")//("https://marchenkophoto.com", "http://localhost:5173")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials();
