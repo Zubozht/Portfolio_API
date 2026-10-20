@@ -17,7 +17,7 @@ namespace api.DTOs.Photo
         public float? MaxApperture { get; set; }
         public int? MinIso { get; set; }
         public int? MaxIso { get; set; }
-        public string? SortBy { get; set; } = null;
+        public string? SortBy { get; set; } = "SortOrder";
         public bool IsDescending { get; set; } = false;
         public int PageNum { get; set; } = 1;
         public int PageSize { get; set; } = 10;

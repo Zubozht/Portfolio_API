@@ -35,7 +35,7 @@ namespace api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var photos = (await _photoRepo.GetFilteredAsync(new PhotoFilterDTO { SortBy = "sortorder", IsDescending = false })).Select(x => x.ToPhotoDTO());
+            var photos = (await _photoRepo.GetFilteredAsync(new PhotoFilterDTO { SortBy = "SortOrder", IsDescending = false })).Select(x => x.ToPhotoDTO());
 
             return Ok(photos);
         }

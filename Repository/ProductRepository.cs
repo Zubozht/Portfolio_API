@@ -38,7 +38,14 @@ namespace api.Repository
                 {
                     if (filterDTO.SortBy.Trim().Equals(colname, StringComparison.OrdinalIgnoreCase))
                     {
-                        query = query.OrderBy($"{colname} {(filterDTO.IsDescending ? "descending" : "ascending")}");
+                        if (colname == "Id")
+                        {
+                            query = query.OrderBy($"{colname} {(filterDTO.IsDescending ? "descending" : "ascending")}");
+                        }
+                        else
+                        {
+                            query = query.OrderBy($"{colname} {(filterDTO.IsDescending ? "descending" : "ascending")}, Id {(filterDTO.IsDescending ? "descending" : "ascending")}");
+                        }
                     }
                 }
             }

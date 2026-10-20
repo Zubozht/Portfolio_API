@@ -1,19 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Data;
 using api.DTOs;
 using api.DTOs.Photo;
+using api.HelperFunctions;
 using api.Interfaces;
 using api.Models;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
-using System.Linq.Dynamic.Core;
-using Microsoft.EntityFrameworkCore;
-using api.HelperFunctions;
 using ImageMagick;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Drawing;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
 
 namespace api.Repository
 {
@@ -80,7 +81,18 @@ namespace api.Repository
                 {
                     if (filterDTO.SortBy.Trim().Equals(colname, StringComparison.OrdinalIgnoreCase))
                     {
-                        query = query.OrderBy($"{colname} {(filterDTO.IsDescending ? "descending" : "ascending")}");
+                        if (colname == "Id")
+                        {
+                            query = query.OrderBy($"{colname} {(filterDTO.IsDescending ? "descending" : "ascending")}");
+                        }
+                        else if (colname == "SortOrder")
+                        {
+                            query = query.OrderBy($"{colname} {(filterDTO.IsDescending ? "descending" : "ascending")}, Id {(filterDTO.IsDescending ? "descending" : "ascending")}");
+                        }
+                        else
+                        {
+                            query = query.OrderBy($"{colname} {(filterDTO.IsDescending ? "descending" : "ascending")}{$", SortOrder {(filterDTO.IsDescending ? "descending" : "ascending")}"}{$", Id {(filterDTO.IsDescending ? "descending" : "ascending")}"}");
+                        }
                     }
                 }
             }
