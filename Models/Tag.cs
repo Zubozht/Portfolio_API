@@ -12,12 +12,13 @@ namespace api.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
+        public int Id { get; set; }
         [Column(TypeName ="NVARCHAR(50)")]
-        public string tag { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         [Column(TypeName ="NVARCHAR(100)")]
-        public string previewpath {get; set; } = string.Empty;
-        public List<PhotoTag> photos { get; set; } = new List<PhotoTag>();
+        public string PreviewPath {get; set; } = string.Empty;
+
+        public List<PhotoTag> Photos { get; set; } = new List<PhotoTag>();
 
     }
 }

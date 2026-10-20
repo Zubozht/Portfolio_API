@@ -7,9 +7,9 @@ namespace api.DTOs.Tag
 {
     public class TagFilterDTO
     {
-        public string? tag { get; set; }
-        public List<int>? photoIDs { get; set; }
-        public string? sortBy { get; set; } = null;
-        public bool isDescending { get; set; } = false;
+        public string? Name { get; set; }
+        public List<int>? PhotoIDs { get; set; }
+        public string? SortBy { get; set; } = null;
+        public bool IsDescending { get; set; } = false;
     }
 }

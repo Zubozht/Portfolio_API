@@ -8,10 +8,10 @@ namespace api.DTOs.Tag
 {
     public class TagDTO
     {
-        public int id { get; set; }
-        public string tag { get; set; } = string.Empty;
-        public string previewpath { get; set; } = string.Empty;
-        //public byte[]? previewimage {get; set; }
-        public List<LightPhotoDTO> photos { get; set; } = new List<LightPhotoDTO>();
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string PreviewPath { get; set; } = string.Empty;
+
+        public List<LightPhotoDTO> Photos { get; set; } = new List<LightPhotoDTO>();
     }
 }

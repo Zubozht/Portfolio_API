@@ -15,33 +15,17 @@ namespace api.Mappers
         {
             return new PhotoDTO
             {
-                id = photoModel.id,
-                //image = photoModel.image,
-                //previewimage = photoModel.previewimage,
-                path = photoModel.path,
-                previewpath = photoModel.previewpath,
-                caption = photoModel.caption,
-                description = photoModel.description,
-                sortorder = photoModel.sortorder,
-                tags = photoModel.tags.Select(x => new LightTagDTO{id = x.Tag.id, tag = x.Tag.tag}).ToList(),
-                exposure = photoModel.exposure,
-                apperture = photoModel.apperture,
-                iso = photoModel.iso
+                Id = photoModel.Id,
+                Path = photoModel.Path,
+                PreviewPath = photoModel.PreviewPath,
+                Caption = photoModel.Caption,
+                Description = photoModel.Description,
+                SortOrder = photoModel.SortOrder,
+                Tags = photoModel.Tags.Select(x => new LightTagDTO{Id = x.Tag.Id, Name = x.Tag.Name}).ToList(),
+                Exposure = photoModel.Exposure,
+                Apperture = photoModel.Apperture,
+                Iso = photoModel.Iso
             };
         }
-
-        /*public static Photo ToPhotoFromCreateDTO(this CreatePhotoReqestDTO photoDTO)
-        {
-            return new Photo
-            {
-                image = photoDTO.image,
-                caption = photoDTO.caption,
-                description = photoDTO.description,
-                tags = photoDTO.tags.Select(x => new PhotoTag{Tagid = x}).ToList(),
-                shutterspeed = photoDTO.shutterspeed,
-                apperture = photoDTO.apperture,
-                iso = photoDTO.iso
-            };
-        }*/
     }
 }

@@ -9,6 +9,6 @@ namespace api.DTOs.Photo
 {
     public class LightPhotoDTO
     {
-        public int id { get; set; }
+        public int Id { get; set; }
     }
 }

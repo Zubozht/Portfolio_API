@@ -7,7 +7,7 @@ namespace api.DTOs.Tag
 {
     public class LightTagDTO
     {
-        public int id { get; set; }
-        public string tag { get; set; } = string.Empty;
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
 }

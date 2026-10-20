@@ -7,19 +7,19 @@ namespace api.DTOs.Photo
 {
     public class PhotoFilterDTO
     {
-        public string? caption { get; set; }
-        public string? description { get; set; }
-        public int? sortorder { get; set; }
-        public List<int>? tagIds { get; set; }
-        public int? minShutterspeed { get; set; }
-        public int? maxShutterspeed { get; set; }
-        public float? minApperture { get; set; }
-        public float? maxApperture { get; set; }
-        public int? minIso { get; set; }
-        public int? maxIso { get; set; }
-        public string? sortBy { get; set; } = null;
-        public bool isDescending { get; set; } = false;
-        public int pageNum { get; set; } = 1;
-        public int pageSize { get; set; } = 10;
+        public string? Caption { get; set; }
+        public string? Description { get; set; }
+        public int? SortOrder { get; set; }
+        public List<int>? TagIds { get; set; }
+        public int? MinShutterspeed { get; set; }
+        public int? MaxShutterspeed { get; set; }
+        public float? MinApperture { get; set; }
+        public float? MaxApperture { get; set; }
+        public int? MinIso { get; set; }
+        public int? MaxIso { get; set; }
+        public string? SortBy { get; set; } = null;
+        public bool IsDescending { get; set; } = false;
+        public int PageNum { get; set; } = 1;
+        public int PageSize { get; set; } = 10;
     }
 }

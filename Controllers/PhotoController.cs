@@ -35,7 +35,7 @@ namespace api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var photos = (await _photoRepo.GetFilteredAsync(new PhotoFilterDTO { sortBy = "sortorder", isDescending = false })).Select(x => x.ToPhotoDTO());
+            var photos = (await _photoRepo.GetFilteredAsync(new PhotoFilterDTO { SortBy = "sortorder", IsDescending = false })).Select(x => x.ToPhotoDTO());
 
             return Ok(photos);
         }
@@ -120,11 +120,11 @@ namespace api.Controllers
             byte[]? imagebytes = null;
             string imagepath = "";
 
-            if (photoDTO.image != null && photoDTO.image.Length > 0)
+            if (photoDTO.Image != null && photoDTO.Image.Length > 0)
             {
                 using (var ms = new MemoryStream())
                 {
-                    await photoDTO.image.CopyToAsync(ms);
+                    await photoDTO.Image.CopyToAsync(ms);
                     imagebytes = ms.ToArray();
                     imagepath = Path.Combine(Directory.GetCurrentDirectory(), "photos", $"tempphoto.jpg");
                     await System.IO.File.WriteAllBytesAsync(imagepath, imagebytes);
@@ -133,14 +133,14 @@ namespace api.Controllers
 
             var photoModel = new Photo
             {
-                path = imagepath,
-                caption = photoDTO.caption,
-                description = photoDTO.description ?? "",
-                sortorder = photoDTO.sortorder,
-                tags = photoDTO.tags.Select(x => new PhotoTag { Tagid = x }).ToList()
+                Path = imagepath,
+                Caption = photoDTO.Caption,
+                Description = photoDTO.Description ?? "",
+                SortOrder = photoDTO.SortOrder,
+                Tags = photoDTO.Tags.Select(x => new PhotoTag { TagId = x }).ToList()
             };
 
-            foreach (int tagid in photoModel.tags.Select(x => x.Tagid))
+            foreach (int tagid in photoModel.Tags.Select(x => x.TagId))
             {
                 if (!await _tagRepo.TagExists(tagid))
                 {
@@ -149,14 +149,14 @@ namespace api.Controllers
             }
 
             await _photoRepo.CreateAsync(photoModel);
-            var savedPhoto = await _photoRepo.GetByIdAsync(photoModel.id);
+            var savedPhoto = await _photoRepo.GetByIdAsync(photoModel.Id);
 
             if (savedPhoto == null)
             {
                 return NotFound();
             }
 
-            return CreatedAtAction(nameof(GetById), new { id = photoModel.id }, savedPhoto.ToPhotoDTO());
+            return CreatedAtAction(nameof(GetById), new { id = photoModel.Id }, savedPhoto.ToPhotoDTO());
         }
 
         [Authorize(Roles="Admin")]

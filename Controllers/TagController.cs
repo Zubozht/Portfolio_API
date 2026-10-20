@@ -31,7 +31,7 @@ namespace api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var tags = await _tagRepo.GetFilteredAsync(new TagFilterDTO { sortBy = "tag", isDescending = false });
+            var tags = await _tagRepo.GetFilteredAsync(new TagFilterDTO { SortBy = "tag", IsDescending = false });
             var tagDTO = tags.Select(x => x.ToTagDTO());
             
             return Ok(tagDTO);
@@ -78,7 +78,7 @@ namespace api.Controllers
 
             var tagModel = tagDTO.ToTagFromCreateDTO();
 
-            foreach (int photoid in tagModel.photos.Select(x => x.Photoid))
+            foreach (int photoid in tagModel.Photos.Select(x => x.PhotoId))
             {
                 if (!await _photoRepo.PhotoExists(photoid))
                 {
@@ -87,12 +87,12 @@ namespace api.Controllers
             }
 
             await _tagRepo.CreateAsync(tagModel);
-            var savedTag = await _tagRepo.GetByIdAsync(tagModel.id);
+            var savedTag = await _tagRepo.GetByIdAsync(tagModel.Id);
             if (savedTag == null)
             {
                 return NotFound();
             }
-            return CreatedAtAction(nameof(GetById), new{id = tagModel.id}, savedTag.ToTagDTO());
+            return CreatedAtAction(nameof(GetById), new{id = tagModel.Id}, savedTag.ToTagDTO());
         }
         
         [HttpGet("previewimage/{id:int}")]

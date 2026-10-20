@@ -10,3 +10,7 @@ node_modules/
 .vs/
 .vscode/
 .idea/
+
+# Media
+photos/
+productphotos/

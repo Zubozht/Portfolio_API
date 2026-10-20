@@ -14,18 +14,17 @@ namespace api.Mappers
         {
             return new TagDTO
             {
-                id = tagModel.id,
-                tag = tagModel.tag,
-                //previewimage = tagModel.previewimage,
-                photos = tagModel.photos.Select(x => new LightPhotoDTO{id = x.Photoid}).ToList()
+                Id = tagModel.Id,
+                Name = tagModel.Name,
+                Photos = tagModel.Photos.Select(x => new LightPhotoDTO{Id = x.PhotoId}).ToList()
             };
         }
         public static Tag ToTagFromCreateDTO(this CreateTagRequestDTO tagDTO)
         {
             return new Tag
             {
-                tag = tagDTO.tag,
-                photos = tagDTO.photos.Select(x => new PhotoTag{Photoid = x}).ToList()
+                Name = tagDTO.Name,
+                Photos = tagDTO.Photos.Select(x => new PhotoTag{PhotoId = x}).ToList()
             };
         }
     }

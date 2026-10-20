@@ -38,18 +38,18 @@ namespace api.Data
                 .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<PhotoTag>()
-                .HasKey(pt => new {pt.Photoid, pt.Tagid});
+                .HasKey(pt => new {pt.PhotoId, pt.TagId});
 
             modelBuilder.Entity<PhotoTag>()
                 .HasOne(pt => pt.Photo)
-                .WithMany(p => p.tags)
-                .HasForeignKey(pt => pt.Photoid)
+                .WithMany(p => p.Tags)
+                .HasForeignKey(pt => pt.PhotoId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<PhotoTag>()
                 .HasOne(pt => pt.Tag)
-                .WithMany(t => t.photos)
-                .HasForeignKey(pt => pt.Tagid)
+                .WithMany(t => t.Photos)
+                .HasForeignKey(pt => pt.TagId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Category>()

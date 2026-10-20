@@ -12,29 +12,29 @@ namespace api.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
+        public int Id { get; set; }
         [Column(TypeName="NVARCHAR(100)")]
-        public string path { get; set; } = string.Empty;
+        public string Path { get; set; } = string.Empty;
         [Column(TypeName = "NVARCHAR(100)")]
-        public string previewpath { get; set; } = string.Empty;
+        public string PreviewPath { get; set; } = string.Empty;
         //[Column(TypeName ="LONGBLOB")]
         //public byte[]? image { get; set; }
         //[Column(TypeName ="LONGBLOB")]
         //public byte[]? previewimage { get; set; }
         [Column(TypeName="NVARCHAR(50)")]
-        public string caption { get; set; } = string.Empty;
+        public string Caption { get; set; } = string.Empty;
         [Column(TypeName="NVARCHAR(1000)")]
-        public string description { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         [Column(TypeName="INT")]
-        public int sortorder { get; set; } = 0;
-        public List<PhotoTag> tags { get; set; } = new List<PhotoTag>();
-        public int? shutterspeed { get; set; }
+        public int SortOrder { get; set; } = 0;
+        public int? Shutterspeed { get; set; }
         [Column(TypeName ="NVARCHAR(50)")]
-        public string? exposure { get; set; }
-        public float? apperture { get; set; }
-        public int? iso { get; set; }
+        public string? Exposure { get; set; }
+        public float? Apperture { get; set; }
+        public int? Iso { get; set; }
         [Column(TypeName ="TIMESTAMP(6)")]
-        public DateTime createdon { get; set; }
+        public DateTime CreatedOn { get; set; }
 
+        public List<PhotoTag> Tags { get; set; } = new List<PhotoTag>();
     }
 }

@@ -10,8 +10,9 @@ namespace api.Models
     [Table("phototags")]
     public class PhotoTag
     {
-        public int Photoid { get; set; }
-        public int Tagid { get; set; }
+        public int PhotoId { get; set; }
+        public int TagId { get; set; }
+
         public Photo Photo { get; set; } = null!;
         public Tag Tag { get; set;} = null!;
     }

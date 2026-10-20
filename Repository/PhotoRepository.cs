@@ -32,88 +32,88 @@ namespace api.Repository
         //}
         public async Task<List<Photo>> GetFilteredAsync(PhotoFilterDTO filterDTO)
         {
-            var query = _context.Photos.Include(x => x.tags).ThenInclude(x => x.Tag).AsQueryable();
+            var query = _context.Photos.Include(x => x.Tags).ThenInclude(x => x.Tag).AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(filterDTO.caption))
+            if (!string.IsNullOrWhiteSpace(filterDTO.Caption))
             {
-                query = query.Where(x => x.caption.Contains(filterDTO.caption));
+                query = query.Where(x => x.Caption.Contains(filterDTO.Caption));
             }
-            if (!string.IsNullOrWhiteSpace(filterDTO.description))
+            if (!string.IsNullOrWhiteSpace(filterDTO.Description))
             {
-                query = query.Where(x => x.description.Contains(filterDTO.description));
+                query = query.Where(x => x.Description.Contains(filterDTO.Description));
             }
-            if (filterDTO.tagIds?.Any() ?? false)
+            if (filterDTO.TagIds?.Any() ?? false)
             {
-                foreach (int filtertagid in filterDTO.tagIds)
+                foreach (int filtertagid in filterDTO.TagIds)
                 {
-                    query = query.Where(x => x.tags.Any(t => t.Tagid == filtertagid));
+                    query = query.Where(x => x.Tags.Any(t => t.TagId == filtertagid));
                 }
             }
 
-            if (filterDTO.minShutterspeed != null)
+            if (filterDTO.MinShutterspeed != null)
             {
-                query = query.Where(x => x.shutterspeed <= filterDTO.minShutterspeed.Value);
+                query = query.Where(x => x.Shutterspeed <= filterDTO.MinShutterspeed.Value);
             }
-            if (filterDTO.maxShutterspeed != null)
+            if (filterDTO.MaxShutterspeed != null)
             {
-                query = query.Where(x => x.shutterspeed >= filterDTO.maxShutterspeed.Value);
+                query = query.Where(x => x.Shutterspeed >= filterDTO.MaxShutterspeed.Value);
             }
-            if (filterDTO.minApperture.HasValue)
+            if (filterDTO.MinApperture.HasValue)
             {
-                query = query.Where(x => x.apperture >= filterDTO.minApperture);
+                query = query.Where(x => x.Apperture >= filterDTO.MinApperture);
             }
-            if (filterDTO.maxApperture.HasValue)
+            if (filterDTO.MaxApperture.HasValue)
             {
-                query = query.Where(x => x.apperture <= filterDTO.maxApperture);
+                query = query.Where(x => x.Apperture <= filterDTO.MaxApperture);
             }
-            if (filterDTO.minIso.HasValue)
+            if (filterDTO.MinIso.HasValue)
             {
-                query = query.Where(x => x.iso >= filterDTO.minIso);
+                query = query.Where(x => x.Iso >= filterDTO.MinIso);
             }
-            if (filterDTO.maxIso.HasValue)
+            if (filterDTO.MaxIso.HasValue)
             {
-                query = query.Where(x => x.iso <= filterDTO.maxIso);
+                query = query.Where(x => x.Iso <= filterDTO.MaxIso);
             }
-            if (!string.IsNullOrWhiteSpace(filterDTO.sortBy))
+            if (!string.IsNullOrWhiteSpace(filterDTO.SortBy))
             {
                 foreach (string colname in typeof(Photo).GetProperties().Select(x => x.Name).ToList())
                 {
-                    if (filterDTO.sortBy.Trim().Equals(colname, StringComparison.OrdinalIgnoreCase))
+                    if (filterDTO.SortBy.Trim().Equals(colname, StringComparison.OrdinalIgnoreCase))
                     {
-                        query = query.OrderBy($"{colname} {(filterDTO.isDescending ? "descending" : "ascending")}");
+                        query = query.OrderBy($"{colname} {(filterDTO.IsDescending ? "descending" : "ascending")}");
                     }
                 }
             }
 
-            var skipNum = (filterDTO.pageNum - 1) * filterDTO.pageSize;
+            var skipNum = (filterDTO.PageNum - 1) * filterDTO.PageSize;
 
-            return await query.Skip(skipNum).Take(filterDTO.pageSize).ToListAsync();
+            return await query.Skip(skipNum).Take(filterDTO.PageSize).ToListAsync();
         }
         public async Task<Photo?> GetByIdAsync(int id)
         {
-            return await _context.Photos.Include(x => x.tags).ThenInclude(x => x.Tag).FirstOrDefaultAsync(x => x.id == id);
+            return await _context.Photos.Include(x => x.Tags).ThenInclude(x => x.Tag).FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task<string?> GetImageByIdAsync(int id)
         {
             var photo = await _context.Photos.FindAsync(id);
 
-            if (photo == null || photo.path == null)
+            if (photo == null || photo.Path == null)
             {
                 return null;
             }
 
-            return photo.path;
+            return photo.Path;
         }
         public async Task<string?> GetPreviewImageByIdAsync(int id)
         {
             var photo = await _context.Photos.FindAsync(id);
 
-            if (photo == null || photo.previewpath == null)
+            if (photo == null || photo.PreviewPath == null)
             {
                 return null;
             }
 
-            return photo.previewpath;
+            return photo.PreviewPath;
         }
         public async Task<Photo> CreateAsync(Photo photoModel)
         {
@@ -121,10 +121,10 @@ namespace api.Repository
             await _context.Photos.AddAsync(photoModel);
             await _context.SaveChangesAsync();
 
-            if (photoModel.path != null)
+            if (photoModel.Path != null)
             {
-                using (var mainimage = new MagickImage(photoModel.path))
-                using (var previewimage = new MagickImage(photoModel.path))
+                using (var mainimage = new MagickImage(photoModel.Path))
+                using (var previewimage = new MagickImage(photoModel.Path))
                 {
                     var profile = mainimage.GetExifProfile();
 
@@ -134,25 +134,25 @@ namespace api.Repository
                         {
                             if (value.Tag == ExifTag.ExposureTime)
                             {
-                                photoModel.exposure = value.ToString();
+                                photoModel.Exposure = value.ToString();
                             }
                             if (value.Tag == ExifTag.ShutterSpeedValue)
                             {
                                 var apexshutterspeed = ((SignedRational)value.GetValue()).ToDouble();
-                                photoModel.shutterspeed = (int)Math.Ceiling(Math.Pow(2, apexshutterspeed));
+                                photoModel.Shutterspeed = (int)Math.Ceiling(Math.Pow(2, apexshutterspeed));
                             }
                             if (value.Tag == ExifTag.FNumber)
                             {
                                 var rational = value.GetValue() as Rational?;
                                 if (rational.HasValue)
                                 {
-                                    photoModel.apperture = (float)rational.Value.ToDouble();
+                                    photoModel.Apperture = (float)rational.Value.ToDouble();
                                 };
                             }
                             if (value.Tag == ExifTag.RecommendedExposureIndex)
                             {
                                 int.TryParse(value.ToString(), out int intvalue);
-                                photoModel.iso = intvalue;
+                                photoModel.Iso = intvalue;
                             }
                             _logger.LogInformation($"{value.Tag}({value.DataType}): {value.ToString()}");
                         };
@@ -208,12 +208,12 @@ namespace api.Repository
                         }
                     }
                     
-                    string imagepath = Path.Combine(Directory.GetCurrentDirectory(), "photos", $"{photoModel.id.ToString().PadLeft(6, '0')}");
-                    File.Delete(photoModel.path);
-                    photoModel.path = $"{imagepath}.jpg";
-                    photoModel.previewpath = $"{imagepath}p.jpg";
-                    mainimage.Write(photoModel.path);
-                    previewimage.Write(photoModel.previewpath);
+                    string imagepath = Path.Combine(Directory.GetCurrentDirectory(), "photos", $"{photoModel.Id.ToString().PadLeft(6, '0')}");
+                    File.Delete(photoModel.Path);
+                    photoModel.Path = $"{imagepath}.jpg";
+                    photoModel.PreviewPath = $"{imagepath}p.jpg";
+                    mainimage.Write(photoModel.Path);
+                    previewimage.Write(photoModel.PreviewPath);
                 };
             };
 
@@ -223,19 +223,19 @@ namespace api.Repository
         }
         public async Task<Photo?> UpdateAsync(int id, UpdatePhotoRequestDTO photoDTO)
         {
-            var existingPhoto = await _context.Photos.Include(x => x.tags).ThenInclude(x => x.Tag).FirstOrDefaultAsync(x => x.id == id);
+            var existingPhoto = await _context.Photos.Include(x => x.Tags).ThenInclude(x => x.Tag).FirstOrDefaultAsync(x => x.Id == id);
             if (existingPhoto == null)
             {
                 return null;
             }
 
             byte[]? imagebytes = null;
-            if (photoDTO.image != null && photoDTO.image.Length > 0)
+            if (photoDTO.Image != null && photoDTO.Image.Length > 0)
             {
 
                 using (var ms = new MemoryStream())
                 {
-                    await photoDTO.image.CopyToAsync(ms);
+                    await photoDTO.Image.CopyToAsync(ms);
                     imagebytes = ms.ToArray();
                 }
             };
@@ -245,14 +245,14 @@ namespace api.Repository
                 File.WriteAllBytes(existingPhoto.path, imagebytes);
             }*/
 
-            existingPhoto.caption = photoDTO.caption;
-            existingPhoto.description = photoDTO.description ?? "";
-            existingPhoto.sortorder = photoDTO.sortorder;
-            existingPhoto.exposure = null;
-            existingPhoto.shutterspeed = null;
-            existingPhoto.apperture = null;
-            existingPhoto.shutterspeed = null;
-            existingPhoto.iso = null;
+            existingPhoto.Caption = photoDTO.Caption;
+            existingPhoto.Description = photoDTO.Description ?? "";
+            existingPhoto.SortOrder = photoDTO.SortOrder;
+            existingPhoto.Exposure = null;
+            existingPhoto.Shutterspeed = null;
+            existingPhoto.Apperture = null;
+            existingPhoto.Shutterspeed = null;
+            existingPhoto.Iso = null;
 
             if (imagebytes != null)
             {
@@ -267,26 +267,26 @@ namespace api.Repository
                         {
                             if (value.Tag == ExifTag.ExposureTime)
                             {
-                                existingPhoto.exposure = value.ToString();
+                                existingPhoto.Exposure = value.ToString();
                             }
                             if (value.Tag == ExifTag.ShutterSpeedValue)
                             {
                                 var apexshutterspeed = ((SignedRational)value.GetValue()).ToDouble();
-                                existingPhoto.shutterspeed = (int)Math.Ceiling(Math.Pow(2, apexshutterspeed));
+                                existingPhoto.Shutterspeed = (int)Math.Ceiling(Math.Pow(2, apexshutterspeed));
                             }
                             if (value.Tag == ExifTag.FNumber)
                             {
                                 var rational = value.GetValue() as Rational?;
                                 if (rational.HasValue)
                                 {
-                                    existingPhoto.apperture = (float)rational.Value.ToDouble();
+                                    existingPhoto.Apperture = (float)rational.Value.ToDouble();
                                 }
                                 ;
                             }
                             if (value.Tag == ExifTag.RecommendedExposureIndex)
                             {
                                 int.TryParse(value.ToString(), out int intvalue);
-                                existingPhoto.iso = intvalue;
+                                existingPhoto.Iso = intvalue;
                             }
                             _logger.LogInformation($"{value.Tag}({value.DataType}): {value.ToString()}");
                         }
@@ -344,22 +344,22 @@ namespace api.Repository
                         }
                     }
 
-                    await mainimage.WriteAsync(existingPhoto.path);
-                    await previewimage.WriteAsync(existingPhoto.previewpath);
+                    await mainimage.WriteAsync(existingPhoto.Path);
+                    await previewimage.WriteAsync(existingPhoto.PreviewPath);
                 }
                 ;
             }
             ;
 
 
-            List<int> existingTagids = existingPhoto.tags.Select(x => x.Tagid).ToList();
-            List<int> newTagids = photoDTO.tags.ToList();
-            List<PhotoTag> tagsToRemove = existingPhoto.tags.Where(x => !newTagids.Contains(x.Tagid)).ToList();
+            List<int> existingTagids = existingPhoto.Tags.Select(x => x.TagId).ToList();
+            List<int> newTagids = photoDTO.Tags.ToList();
+            List<PhotoTag> tagsToRemove = existingPhoto.Tags.Where(x => !newTagids.Contains(x.TagId)).ToList();
             _context.PhotoTags.RemoveRange(tagsToRemove);
             List<int> tagsToAdd = newTagids.Except(existingTagids).ToList();
-            foreach (var Tagid in tagsToAdd)
+            foreach (var tagId in tagsToAdd)
             {
-                existingPhoto.tags.Add(new PhotoTag{Photoid = id, Tagid = Tagid});
+                existingPhoto.Tags.Add(new PhotoTag{PhotoId = id, TagId = tagId});
             }
 
             await _context.SaveChangesAsync();
@@ -374,10 +374,10 @@ namespace api.Repository
                 return null;
             }
 
-            if (File.Exists(photoModel.path) && File.Exists(photoModel.previewpath))
+            if (File.Exists(photoModel.Path) && File.Exists(photoModel.PreviewPath))
             {
-                File.Delete(photoModel.path);
-                File.Delete(photoModel.previewpath);
+                File.Delete(photoModel.Path);
+                File.Delete(photoModel.PreviewPath);
             }
 
             _context.Photos.Remove(photoModel);
@@ -386,7 +386,7 @@ namespace api.Repository
         }
         public Task<bool> PhotoExists(int id)
         {
-            return _context.Photos.AnyAsync(x => x.id == id);
+            return _context.Photos.AnyAsync(x => x.Id == id);
         }
     }
 }
