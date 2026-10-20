@@ -166,7 +166,7 @@ namespace api.Repository
                                 int.TryParse(value.ToString(), out int intvalue);
                                 photoModel.Iso = intvalue;
                             }
-                            _logger.LogInformation($"{value.Tag}({value.DataType}): {value.ToString()}");
+                            //_logger.LogInformation($"{value.Tag}({value.DataType}): {value.ToString()}");
                         };
                     };
 
@@ -300,7 +300,7 @@ namespace api.Repository
                                 int.TryParse(value.ToString(), out int intvalue);
                                 existingPhoto.Iso = intvalue;
                             }
-                            _logger.LogInformation($"{value.Tag}({value.DataType}): {value.ToString()}");
+                            //_logger.LogInformation($"{value.Tag}({value.DataType}): {value.ToString()}");
                         }
                         ;
                     }
