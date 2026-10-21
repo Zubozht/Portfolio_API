@@ -1,3 +1,4 @@
+using api.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace api.HelperFunctions
 {
-    public class ShutterSpeedNormalizers
+    public class PhotoTools
     {
-        public static string ShutterSpeedNormalizer (float shutterspeedvalue)
+        public static string NormalizeShutterSpeed (float shutterspeedvalue)
                     {
                         float exposuretime = (float)Math.Pow(2, -shutterspeedvalue);
 
@@ -42,6 +43,16 @@ namespace api.HelperFunctions
             {
                 return -1;
             }
+        }
+
+        public static Photo GetExif(Photo photoModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Photo Resize(Photo photoModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }
