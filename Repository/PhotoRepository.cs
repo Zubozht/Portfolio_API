@@ -131,8 +131,11 @@ namespace api.Repository
         {
 
             await _context.Photos.AddAsync(photoModel);
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
 
+            photoModel.SaveImage();
+            
+            /*
             if (photoModel.Path != null)
             {
                 using (var mainimage = new MagickImage(photoModel.Path))
@@ -228,6 +231,8 @@ namespace api.Repository
                     previewimage.Write(photoModel.PreviewPath);
                 };
             };
+
+            */
 
             await _context.SaveChangesAsync();
 
@@ -359,9 +364,7 @@ namespace api.Repository
                     await mainimage.WriteAsync(existingPhoto.Path);
                     await previewimage.WriteAsync(existingPhoto.PreviewPath);
                 }
-                ;
             }
-            ;
 
 
             List<int> existingTagids = existingPhoto.Tags.Select(x => x.TagId).ToList();
